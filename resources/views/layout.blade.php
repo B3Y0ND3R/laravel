@@ -40,7 +40,7 @@
         </span>
       </li>
       <li>
-        <a href="/listings/manage" class="hover:text-laravel"><i class="fa-solid fa-gear"></i> Manage Listings</a>
+        <a href="/listings/handle" class="hover:text-laravel"><i class="fa-solid fa-gear"></i> Listings</a>
       </li>
       <li>
         <a href="/users/{{auth()->user()->id}}" class="hover:text-laravel"><i class="fa-solid fa-user"></i> My Profile</a>

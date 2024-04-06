@@ -46,6 +46,12 @@ class UserController extends Controller
         ]);
     }
 
+    public function showApplicants()
+    {
+        $users = User::all(); // Assuming User is your model
+        return view('dashboard.a-users', compact('users'));
+    }
+    
 
     public function logout(Request $request) {
         auth()->logout();

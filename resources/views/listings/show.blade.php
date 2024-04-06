@@ -38,10 +38,34 @@
 
                                 <a
                                     href="mailto:{{$listing->email}}"
-                                    class="block bg-laravel text-white mt-6 py-2 rounded-xl hover:opacity-80"
+                                    class="block bg-black text-white mt-6 py-2 rounded-xl hover:opacity-80"
                                     ><i class="fa-solid fa-envelope"></i>
                                     Contact Employer</a
                                 >
+
+                                {{-- <form action="/listings/{{$listing->id}}/apply" method="POST">
+                                    @csrf
+                                    <button type="submit" class="block bg-laravel text-white mt-6 py-2 rounded-xl hover:opacity-80">
+                                        <i class="fa-solid fa-hand-point-up"></i> Apply
+                                    </button>
+                                </form> --}}
+
+                                @if (Auth::check())
+                                <a
+                                href="/listings/{{$listing->id}}/apply"
+                                target="_blank"
+                                class="block bg-laravel text-white py-2 rounded-xl hover:opacity-80"
+                                ><i class="fa-solid fa-finger-point-up"></i>Apply</a
+                                >
+                                @else
+                                <a
+                                href="/login"
+                                target="_blank"
+                                class="block bg-laravel text-white py-2 rounded-xl hover:opacity-80 disabled"
+                                ><i class="fa-solid fa-finger-point-up"></i>Login to Apply</a
+                                >
+                                @endif
+                                
 
                                 <a
                                     href="{{$listing->website}}"
@@ -66,6 +90,23 @@
                         <button class="text-red-500"><i class="fa-solid fa-trash"></i> Delete</button>
                       </form>
                 </x-card> --}}
-            </div>
 
+            </div>
+            {{-- <script type="text/javascript">
+                function applyJob(id){
+                    if (confirm("Are you sure you want to apply on this job?")) {
+                        $.ajax({
+                            url : '/listings/{{$listing->id}}/apply',
+                            type: 'post',
+                            data: {id:id},
+                            dataType: 'json',
+                            success: function(response) {
+                                window.location.href = "{{ url()->current() }}";
+                            } 
+                        });
+                    }
+                }
+                
+                
+                </script> --}}
 @endsection
