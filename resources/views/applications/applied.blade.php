@@ -73,7 +73,7 @@
 @section('nav')
 <div class="item">
     <i class='bx bx-user'></i>
-    <a href="/dashboard/employer/applied">Jobs Applied</a>
+    <a href="/dashboard/applicant/applied">Jobs Applied</a>
 </div>
 <div class="item">
     <i class='bx bx-user'></i>

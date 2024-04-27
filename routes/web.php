@@ -5,27 +5,27 @@ use App\Models\Listing;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\ApplicantController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\EmployerController;
 
 Route::get('/l', function () {
     return view('dashboard.l');
 });
 
-Route::get('/dashboard/admin', function () {
-    return view('dashboard.admin');
-});
+Route::get('/dashboard/admin', [AdminController::class, 'dashboard']);
 
-Route::get('/dashboard/applicant', function () {
-    return view('dashboard.applicant');
-});
+Route::get('/dashboard/applicant', [ApplicantController::class, 'dashboard']);
 
-Route::get('/dashboard/employer', function () {
-    return view('dashboard.employer');
-});
+
+Route::get('/dashboard/employer', [EmployerController::class, 'dashboard']);
 
 
 
 Route::get('/dashboard/employer/manage', [ListingController::class, 'manage'])->middleware('auth');
 
+
+Route::get('/dashboard/applicant/applied', [ApplicationController::class, 'applied']);
 
 Route::get('/', [ListingController::class, 'index']);
 
@@ -95,4 +95,18 @@ Route::get('/dashboard', function () {
 // Route::get('/dashboard/actions', function () {
 //     return view('dashboard.dashboard');
 // });
+
+
+// Route::group(['middleware' => ['auth', 'role:admin']], function () {
+//     Route::get('/admin/dashboard', 'AdminController@dashboard')->name('admin.dashboard');
+// });
+
+// Route::group(['middleware' => ['auth', 'role:employer']], function () {
+//     Route::get('/employer/dashboard', 'EmployerController@dashboard')->name('employer.dashboard');
+// });
+
+// Route::group(['middleware' => ['auth', 'role:applicant']], function () {
+//     Route::get('/applicant/dashboard', 'ApplicantController@dashboard')->name('applicant.dashboard');
+// });
+
 

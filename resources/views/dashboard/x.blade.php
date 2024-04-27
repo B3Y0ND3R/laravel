@@ -772,7 +772,21 @@ main .planning .item > i{
             <div class="sidebar">
                 <div class="item" >
                     <i class='bx bx-window'></i>
-                    <a href="/dashboard">Dashboard</a>
+                    @if(Auth::user()->role == 'admin')
+        <a href="/dashboard/admin">Dashboard</a>
+      @endif
+
+      @if(Auth::user()->role == 'employer')
+      
+        <a href="/dashboard/employer">Dashboard</a>
+
+      @endif
+
+      @if(Auth::user()->role == 'applicant')
+
+        <a href="/dashboard/applicant">Dashboard</a>
+
+      @endif
                 </div>
 
                 <div class="item">

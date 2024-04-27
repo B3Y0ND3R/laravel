@@ -20,7 +20,8 @@ class UserController extends Controller
             'name' => ['required', 'min:3'],
             'email' => ['required', 'email', Rule::unique('users', 'email')],
             'password' => 'required|confirmed|min:6',
-            'pic' => 'required'
+            'pic' => 'required',
+            'role' => 'required|string|in:admin,employer,applicant'
         ]);
 
         if($request->hasFile('pic')) {

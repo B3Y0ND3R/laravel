@@ -1,19 +1,17 @@
 @extends('dashboard.x')
 
-@section('nav')
 
 @section('nav')
 
 <div class="item">
     <i class='bx bx-user'></i>
-    <a href="/dashboard/employer/applied">Jobs applied</a>
+    <a href="/dashboard/applicant/applied">Jobs applied</a>
 </div>
 <div class="item">
     <i class='bx bx-user'></i>
     <a href="/dashboard/applicant/request">Request Role Change</a>
 </div>
 
-@endsection
    
 
 @endsection
@@ -39,11 +37,11 @@
 <div class="item">
   <div class="progress">
       <div class="info">
-          <a href="/dashboard/employer/applied"><h5>Apply for a Job</h5></a>
+          <a href="/dashboard/applicant/applied"><h5>Apply for a Job</h5></a>
 
       </div>
   </div>
-  <a href="/dashboard/employer/applied"><i class='bx bx-list-check'></i></a>
+  <a href="/dashboard/applicant/applied"><i class='bx bx-list-check'></i></a>
 </div>
 <div class="item">
   <div class="progress">
