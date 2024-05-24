@@ -3,12 +3,12 @@
 @section('nav')
 
 <div class="item">
-    <i class='bx bx-user'></i>
+    <i class='bx bx-group'></i>
     <a href="/dashboard/admin/users">Users</a>
 </div>
 <div class="item">
-    <i class='bx bx-user'></i>
-    <a href="/">Manage Roles</a>
+    <i class='bx bx-file'></i>
+    <a href="/dashboard/admin/roles">Manage Roles</a>
 </div>
 
 @endsection
@@ -45,7 +45,7 @@
 <div class="item">
     <div class="progress">
         <div class="info">
-            <a href="/"><h5>Manage Roles</h5></a>
+            <a href="/dashboard/admin/roles"><h5>Manage Roles</h5></a>
         </div>
     </div>
     <a href="/"><i class='bx bx-file'></i></a>

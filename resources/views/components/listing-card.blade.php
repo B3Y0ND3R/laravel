@@ -17,8 +17,8 @@
 
 
             
-            <div class="text-lg mt-4">
-                <i class="fa-solid fa-location-dot"></i>{{$listing->location}}
+            <div class="text-lg mt-4"><a href="">
+                <i class="fa-solid fa-location-dot"></i>{{$listing->location}}</a>
             </div>
         </div>
     </div>

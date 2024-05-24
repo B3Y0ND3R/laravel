@@ -13,15 +13,26 @@ use App\Models\Application;
 use App\Notifications\JobApplicationReceived;
 
 use Auth;
+use DB;
 
 class ListingController extends Controller
 {
     public function index(){
-        // dd(request('tag'));
+        $totalUsers = User::count();
+        $totalListings = Listing::count();
+        $totalApplications = Application::count();
+        $totalEmployers = DB::table('users')
+            ->where('role', 'employer')
+            ->count();
+        $totalApplicants = DB::table('users')
+            ->where('role', 'applicant')
+            ->count();
+        $totalCompanies = Listing::select('company_id')->distinct()->count();
+
+        //return view('dashboard', compact('totalUsers', 'totalListings', 'totalApplications', 'totalEmployers', 'totalApplicants'));
         return view('listings.index', [
-            // 'heading' => 'Latest listings',
             'listings' => Listing::latest()->filter(request(['tag', 'search']))->paginate(2)
-        ]);
+        ],compact('totalUsers', 'totalListings', 'totalApplications', 'totalEmployers', 'totalApplicants','totalCompanies'));
     }
 
     public function show(Listing $listing){
@@ -227,4 +238,17 @@ public function applyJob(Request $request) {
     ]);
 }
 
+public function totalListings(){
+    $users = User::all();
+    $listings=Listing::all();
+    $applications=Application::all();
+    return view('total.listings', compact('users','listings','applications'));
+}
+ 
+public function totalCompanies(){
+    $users = User::all();
+    $listings=Listing::all();
+    $applications=Application::all();
+    return view('total.companies', compact('users','listings','applications'));
+}
 }

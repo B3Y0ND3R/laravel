@@ -13,6 +13,13 @@ use Illuminate\Validation\Rule;
 use App\Models\Application;
 use App\Notifications\JobApplicationReceived;
 
+use Str;
+use App\Mail\JobNotificationMail;
+use App\Mail\ApplicationNotificationMail;
+use Mail;
+use Hash;
+use Auth;
+
 class ApplicationController extends Controller
 {
   // Store Listing Data
@@ -33,6 +40,18 @@ class ApplicationController extends Controller
     
 
     Application::create($formFields);
+
+  //   $mailData = [
+  //     'employer' => $employer,
+  //     'user' => Auth::user(),
+  //     'job' => $job,
+  // ];
+  $user = auth()->user();
+  $employer=User::where('id', '=', $listing->user_id)->first();
+
+
+  Mail::to($user->email)->send(new JobNotificationMail($user,$listing));
+  Mail::to($employer->email)->send(new ApplicationNotificationMail($employer,$user));
 
     return redirect('/')->with('message', 'Listing created successfully!');
 }
@@ -75,13 +94,13 @@ class ApplicationController extends Controller
 
 public function applied() {
   $user = auth()->user();
-  $applications = $user->applications; // Assuming you have a relationship set up
-  $listings = Listing::all(); // Assuming Listing is your model for listings
+  $applications = $user->applications; 
+  $listings = Listing::all(); 
 
   return view('applications.applied', compact('applications', 'listings'));
 }
 
-// In your controller
+
 public function show($listingId)
 {
   $listing = Listing::with('applications.user')->find($listingId);
@@ -90,3 +109,6 @@ public function show($listingId)
 
 
 }
+
+
+

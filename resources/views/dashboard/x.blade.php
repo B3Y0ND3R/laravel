@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <title>Responsive Dashboard Design #01 | AsmrProg</title>
+    <title>Dashobard</title>
 </head>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap');
@@ -38,6 +38,13 @@ i{
     align-items: center;
     justify-content: space-between;
     padding: 40px 0;
+    position: fixed;
+     top:0;
+    left:0;
+     overflow-y:auto;
+     width: 16rem;
+     height: 100vh;
+     background: #01305b
 }
 
 .container .left-section .logo{
@@ -181,52 +188,17 @@ main header h5{
 main .separator{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     margin-top: 20px;
 }
 
-main .separator .info{
-    display: flex;
-    align-items: center;
-    gap: 30px;
-}
-
-main .separator .info h3{
-    font-size: 30px;
-}
-
-main .separator .info a{
-    margin-top: 6px;
-    font-size: 14px;
-}
-
-main .separator .search{
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
-
-main .separator .search i{
-    font-size: 20px;
-    color: #BDBDBD;
-}
-
-main .separator .search input{
-    border: none;
-    font-size: 14px;
-    width: 80px;
-    outline: none;
-}
-
-main .separator .search input::placeholder{
-    color: #BDBDBD;
-}
 
 main .analytics{
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
     margin-top: 20px;
+    align-items: center;
 }
 
 main .analytics .item{
@@ -325,13 +297,6 @@ main .analytics .item:nth-child(4){
     background: #FFD043;
 }
 
-main .separator input{
-    border: none;
-    color: #369FFF;
-    font-weight: bold;
-    outline: none;
-    width: 100px;
-}
 
 input[type="date"]::-webkit-calendar-picker-indicator{
     opacity: 0.5;
@@ -418,6 +383,7 @@ main .planning .item > i{
 
 .container .right-section{
     padding: 40px 40px 0 40px;
+    align-items: center;
 }
 
 .container .right-section .top{
@@ -580,6 +546,10 @@ main .planning .item > i{
     font-size: 14px;
     color: #000;
 }
+.l{
+    margin:0 300px;
+    padding:2rem;
+}
 
 @media screen and (max-width: 1200px) {
     
@@ -631,22 +601,8 @@ main .planning .item > i{
         font-size: 16px;
     }
 
-    main .separator .info{
-        gap: 15px;
-    }
 
-    main .separator .info h3,
-    .container .right-section .separator h4{
-        font-size: 20px;
-    }
 
-    main .analytics .item{
-        min-width: 160px;
-    }
-
-    main .analytics .item i{
-        display: none;
-    }
 
     main .planning{
         grid-template-columns: 1fr;
@@ -673,7 +629,9 @@ main .planning .item > i{
 }
 
 @media screen and (max-width: 768px) {
-    
+    .l{
+        margin: 0 25px;
+    }
     .container{
         grid-template-columns: 1fr;
         padding-top: 80px;
@@ -797,6 +755,10 @@ main .planning .item > i{
                     <i class='bx bx-user'></i>
                     <a href="/users/{{auth()->user()->id}}">Profile</a>
                 </div>
+                <div class="item">
+                    <i class='bx bx-user-check'></i>
+                    <a href="/edit-profile">Edit Profile</a>
+                </div>
                 @yield('nav')
                 {{-- <div class="item">
                     <i class='bx bx-folder'></i>
@@ -834,14 +796,13 @@ main .planning .item > i{
 
         </aside>
 
-        <main>
+        <main class="l">
             <header>
                 <button class="menu-btn" id="menu-open">
                     <i class='bx bx-menu'></i>
                 </button>
                 <h5>Hello! <b>{{auth()->user()->name}}</b>, Welcome back!</h5>
             </header>
-
             
 
             <div class="separator">
@@ -850,23 +811,8 @@ main .planning .item > i{
 
              <div class="analytics">
                 @yield('p')
-                {{-- <div class="item">
-                    <div class="progress">
-                        <div class="info">
-                            <a href="/"><h5>Users</h5></a>
-
-                        </div>
-                    </div>
-                    <a href="/"><i class='bx bx-group'></i></a>
+                
                 </div>
-                <div class="item">
-                    <div class="progress">
-                        <div class="info">
-                            <a href="/"><h5>Manage Roles</h5></a>
-                        </div>
-                    </div>
-                    <a href="/"><i class='bx bxs-file'></i></a>
-                </div> --}}
             </div>
         </main>
 

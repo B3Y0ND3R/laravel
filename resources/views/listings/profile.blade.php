@@ -40,7 +40,7 @@
                                     href="mailto:{{$user->email}}"
                                     class="block bg-laravel text-white mt-6 py-2 rounded-xl hover:opacity-80"
                                     ><i class="fa-solid fa-envelope"></i>
-                                    Contact Employer</a
+                                    Contact</a
                                 >
 
                                 {{-- <a
@@ -50,6 +50,10 @@
                                     ><i class="fa-solid fa-globe"></i> Visit
                                     Website</a
                                 > --}}
+
+                                    <a href="{{ asset('storage/' . $user->cv) }}" target="_blank" class="block bg-black text-white mt-6 py-2 rounded-xl hover:opacity-80"><i class="fa-solid fa-file"></i>
+                                        View CV
+                                    </a>
                             </div>
                         </div>
                     </div>

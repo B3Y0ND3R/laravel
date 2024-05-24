@@ -17,8 +17,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('pic')->nullable();//
+            $table->string('pic')->nullable();
             $table->string('role')->default('applicant');
+            $table->string('cv')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -30,6 +30,16 @@
           <p class="text-red-500 text-xs mt-1">{{$message}}</p>
           @enderror
         </div>
+
+
+        <div class="mb-6">
+          <input type="checkbox" name="remember" id="remember" class="mr-2">
+          <label for="remember" class="text-lg">Remember Me</label>
+        </div>
+
+        <div class="mb-6">
+            <a href="/forgot" class="text-laravel">Forgot Password?</a>
+        </div>
   
         <div class="mb-6">
           <button type="submit" class="bg-laravel text-white rounded py-2 px-4 hover:bg-black">

@@ -3,6 +3,7 @@
 
 
 @section('p')
+<div class="home-container" style="width: 70vw;">
     <table class="w-full table-auto rounded-sm">
         <tbody>
 
@@ -13,37 +14,6 @@
     $maxCount = max($applicationsCount, $listingsCount);
 @endphp
 
-{{-- @for ($i = 0; $i < $maxCount; $i++)
-    @if ($i < $applicationsCount)
-        {{-- Display application 
-        {{ $applications[$i]->id }}
-    @endif
-
-    @if ($i < $listingsCount)
-        {{-- Display listing 
-        {{ $listings[$i]->id }}
-    @endif
-@endfor --}}
-
-
-            {{-- @unless ($applications->isEmpty())
-            @foreach ($applications as $application)
-            @foreach ($listings as $listing)
-            @if($application->user_id == auth()->user()->id && $application->listing_id == $listing->id)
-            <tr class="border-gray-300">
-                <td
-                    class="px-4 py-8 border-t border-b border-gray-300 text-lg"
-                >
-                    <a href="/listings/{{$listing->id}}">
-                        {{$listing->title}}
-                    </a>
-                </td>
-                
-            </tr>
-            @endif
-            @endforeach
-            @endforeach  
-            @endunless --}}
 
 
             @unless ($applications->isEmpty())
@@ -55,29 +25,50 @@
             <tr class="border-gray-300">
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
                     <a href="/listings/{{$listing->id}}">
-                        {{$listing->title}}
+                       Post: {{$listing->title}}
+                    </a>
+                </td>
+
+                <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
+                    <a href="/listings/{{$listing->id}}">
+                       Location: {{$listing->location}}
+                    </a>
+                </td>
+
+                <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
+                    <a href="/listings/{{$listing->id}}">
+                        <img class="mr-6 mb-6" src="{{$listing->logo ? asset('storage/' . $application->listing->logo) : asset('/images/no-image.png')}}"
+                        alt="" width="100" height="100">
                     </a>
                 </td>
             </tr>
         @endif
     @endforeach
+    @else
+            <tr class="border-gray-300">
+                <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
+                    <p class="text-center">
+                        No Listings Found
+                    </p>
+                </td>
+            </tr>
 @endunless
 
         </tbody>
     </table>
 
    
-
+</div>
 @endsection
 
 @section('nav')
 <div class="item">
-    <i class='bx bx-user'></i>
-    <a href="/dashboard/applicant/applied">Jobs Applied</a>
+    <i class='bx bx-list-check'></i>
+    <a href="/dashboard/applicant/applied">Jobs applied</a>
 </div>
 <div class="item">
-    <i class='bx bx-user'></i>
-    <a href="/dashboard/applicant/request">Request Role Change</a>
+    <i class='bx bx-file'></i>
+    <a href="/dashboard/applicant/upload-cv">Your CV</a>
 </div> 
 @endsection
 

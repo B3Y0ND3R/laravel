@@ -13,7 +13,22 @@ Route::get('/l', function () {
     return view('dashboard.l');
 });
 
+Route::get('/forgot', [UserController::class, 'forgot']);
+
+Route::post('/forgot-password', [UserController::class, 'forgot_post']);
+
+
+
+Route::get('/reset/{token}', [UserController::class, 'getReset']);
+Route::post('/reset_post/{token}', [UserController::class, 'postReset']);
+
+
 Route::get('/dashboard/admin', [AdminController::class, 'dashboard']);
+Route::get('/dashboard/admin/roles', [UserController::class, 'showUsers']);
+
+Route::put('/dashboard/admin/update-role', [UserController::class, 'updateRole']);
+
+
 
 Route::get('/dashboard/applicant', [ApplicantController::class, 'dashboard']);
 
@@ -23,6 +38,16 @@ Route::get('/dashboard/employer', [EmployerController::class, 'dashboard']);
 
 
 Route::get('/dashboard/employer/manage', [ListingController::class, 'manage'])->middleware('auth');
+
+Route::get('/dashboard/admin/users/{id}/listings', [UserController::class, 'showListings']);
+
+Route::get('/dashboard/admin/users/{id}/applications', [UserController::class, 'showApplications']);
+
+Route::get('/dashboard/applicant/upload-cv', [UserController::class, 'goToUploadCV']);
+
+Route::post('/dashboard/applicant/show-cv', [UserController::class, 'uploadCV']);
+
+
 
 
 Route::get('/dashboard/applicant/applied', [ApplicationController::class, 'applied']);
@@ -65,6 +90,9 @@ Route::get('/listings/{listing}', [ListingController::class, 'show']);
 
 // Show Register/Create Form
 Route::get('/register', [UserController::class, 'create'])->middleware('guest');
+
+Route::get('/edit-profile', [UserController::class, 'showProfile']);
+Route::post('/updated-profile', [UserController::class, 'editProfile']);
 
 // Create New User
 Route::post('/users', [UserController::class, 'store']);
@@ -109,4 +137,8 @@ Route::get('/dashboard', function () {
 //     Route::get('/applicant/dashboard', 'ApplicantController@dashboard')->name('applicant.dashboard');
 // });
 
-
+Route::get('/totalUsers', [UserController::class, 'totalUsers']);
+Route::get('/totalListings', [ListingController::class, 'totalListings']);
+Route::get('/totalCompanies', [ListingController::class, 'totalCompanies']);
+Route::get('/totalEmployers', [EmployerController::class, 'totalEmployers']);
+Route::get('/totalApplicants', [ApplicantController::class, 'totalApplicants']);

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Models\Listing;
+use App\Models\Application;
 
 class ApplicantController extends Controller
 {
@@ -16,5 +19,13 @@ class ApplicantController extends Controller
             return redirect('/')->with('error', 'Unauthorized action.');
         }
     }
-    }
+
+    
+public function totalApplicants(){
+    $users = User::where('role', 'applicant')->get();
+    $listings=Listing::all();
+    $applications=Application::all();
+    return view('total.applicants', compact('users','listings','applications'));
+}
+}
 

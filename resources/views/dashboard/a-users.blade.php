@@ -31,8 +31,8 @@
         <body>
 
             @section('p')
-<div class="home-container">
-
+<div class="home-container" style="width: 70vw;">
+    @auth
     <table class="w-full table-auto rounded-sm">
         <tbody>
             @foreach($users as $user)
@@ -44,7 +44,7 @@
                 </td>
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
                     <a href="/users/{{ $user->id }}">
-                        Applied by: {{ $user->name ?? 'N/A' }}
+                        Username: {{ $user->name ?? 'N/A' }}
                     </a>
                 </td>
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
@@ -52,11 +52,23 @@
                         <img class="mr-6 mb-6" src="{{ $user->pic ? asset('storage/' . $user->pic) : asset('/images/no-image.png') }}" alt="User Image" width="100" height="100">
                     </a>
                 </td>
+                <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
+                    @if($user->role == 'employer')
+                    <a href="/dashboard/admin/users/{{$user->id}}/listings" class="text-blue-400 px-6 py-2 rounded-xl">
+                        <i class="fa-solid fa-file"></i> Jobs
+                    </a>
+                    @elseif($user->role == 'applicant')
+                    <a href="/dashboard/admin/users/{{$user->id}}/applications" class="text-blue-400 px-6 py-2 rounded-xl">
+                        <i class="fa-solid fa-file"></i> Applications
+                    </a>
+                    @endif
+                </td>
             </tr>
             @endforeach
         </tbody>
+    </table>
+    @endauth
 </div>
-
 @endsection
 
 
@@ -67,7 +79,7 @@
 </div>
 <div class="item">
     <i class='bx bx-user'></i>
-    <a href="/">Manage Roles</a>
+    <a href="/dashboard/admin/roles">Manage Roles</a>
 </div>
     @endsection
 

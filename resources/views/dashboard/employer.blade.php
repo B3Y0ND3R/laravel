@@ -3,11 +3,11 @@
 @section('nav')
 
 <div class="item">
-    <i class='bx bx-user'></i>
+    <i class='bx bx-list-check'></i>
     <a href="/dashboard/employer/manage">Manage Jobs</a>
 </div>
 <div class="item">
-    <i class='bx bx-user'></i>
+    <i class='bx bx-file'></i>
     <a href="/listings/create">Post a Job</a>
 </div>
 

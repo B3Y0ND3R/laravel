@@ -31,7 +31,7 @@
         <body>
 
             @section('p')
-<div class="home-container" style="width:70vw">
+<div class="home-container">
 
     <table class="w-full table-auto rounded-sm">
         <tbody>
@@ -46,7 +46,7 @@
                         {{$listing->title}}
                     </a>
                 </td>
-                <td
+                {{-- <td
                     class="px-4 py-8 border-t border-b border-gray-300 text-lg"
                 >
                     <a
@@ -66,7 +66,7 @@
                     @method('DELETE')
                     <button class="text-red-500"><i class="fa-solid fa-trash"></i> Delete</button>
                   </form>
-                </td>
+                </td> --}}
 
                 <td
                     class="px-4 py-8 border-t border-b border-gray-300 text-lg"
@@ -100,12 +100,12 @@
 
 @section('nav')
 <div class="item">
-    <i class='bx bx-list-check'></i>
-    <a href="/dashboard/employer/manage">Manage Jobs</a>
+    <i class='bx bx-user'></i>
+    <a href="/dashboard/admin/users">Users</a>
 </div>
 <div class="item">
-    <i class='bx bx-file'></i>
-    <a href="/listings/create">Post a Job</a>
+    <i class='bx bx-user'></i>
+    <a href="/">Manage Roles</a>
 </div>
     @endsection
 
