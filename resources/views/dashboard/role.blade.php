@@ -33,6 +33,24 @@
     
         <body>
 
+            @php
+$u_id=session('user.id')
+@endphp
+@php
+$u_name=session('user.name')
+@endphp
+@php
+$u_email=session('user.email')
+@endphp
+@php
+$u_role=session('user.role')
+@endphp
+@php
+$u_pic=session('user.pic')
+@endphp
+@php
+$u_cv=session('user.cv')
+@endphp
 
 @section('p')
 <div class="home-container" style="width: 70vw;">

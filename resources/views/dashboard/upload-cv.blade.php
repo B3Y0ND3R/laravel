@@ -31,7 +31,24 @@
                 },
             };
         </script>
-
+@php
+$u_id=session('user.id')
+@endphp
+@php
+$u_name=session('user.name')
+@endphp
+@php
+$u_email=session('user.email')
+@endphp
+@php
+$u_role=session('user.role')
+@endphp
+@php
+$u_pic=session('user.pic')
+@endphp
+@php
+$u_cv=session('user.cv')
+@endphp
 <div class="home-container" style="width: 70vw;">
         @if(!auth()->user()->cv)
         <form action="/dashboard/applicant/show-cv" method="POST" enctype="multipart/form-data">
@@ -63,7 +80,7 @@
         @else
         <div class="text-lg space-y-6">
 
-            <a href="{{ asset('storage/' . auth()->user()->cv) }}" target="_blank" class="block bg-laravel text-white mt-6 py-2 rounded-xl hover:opacity-80"><i class="fa-solid fa-file"></i>
+            <a href="{{ asset('storage/' . Auth::user()->cv) }}" target="_blank" class="block bg-laravel text-white mt-6 py-2 rounded-xl hover:opacity-80" style="width: 7vw;"><i class="fa-solid fa-file"></i>
                 View CV
             </a>
         </div>

@@ -9,10 +9,10 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        if (Auth::check() && Auth::user()->role == 'admin') {
+        if (Auth::check() && session('user.role') == 'admin' && session('logged_in')) {
             return view('dashboard.admin');
         } else {
-            return redirect('/')->with('error', 'Unauthorized action.');
+            return redirect('/')->with('message', 'Unauthorized action.');
         }
     }
 

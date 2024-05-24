@@ -704,7 +704,24 @@ main .planning .item > i{
   box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
 }
 </style>
-
+@php
+$u_id=session('user.id')
+@endphp
+@php
+$u_name=session('user.name')
+@endphp
+@php
+$u_email=session('user.email')
+@endphp
+@php
+$u_role=session('user.role')
+@endphp
+@php
+$u_pic=session('user.pic')
+@endphp
+@php
+$u_cv=session('user.cv')
+@endphp
 <body>
 
     <div class="container">
@@ -716,13 +733,13 @@ main .planning .item > i{
                 </button>
                 <a href="/">JobHelp</a>
                 <div class="a">
-                    <a href="/users/{{auth()->user()->id}}" class="logo">
+                    <a href="/users/{{$u_id}}" class="logo">
                     <img
                                       class="w-48 mr-6 mb-6"
-                                      src="{{auth()->user()->pic ? asset('storage/' . auth()->user()->pic) : asset('/images/no-image.png')}}"
+                                      src="{{Auth::user()->pic ? asset('storage/' . Auth::user()->pic) : asset('/images/no-image.png')}}"
                                       alt=""
                                   />
-                    <span class="nav-item">{{auth()->user()->name}}</span>
+                    <span class="nav-item">{{$u_name}}</span>
                   </a>
                 </div>
             </div>
@@ -730,17 +747,17 @@ main .planning .item > i{
             <div class="sidebar">
                 <div class="item" >
                     <i class='bx bx-window'></i>
-                    @if(Auth::user()->role == 'admin')
+                    @if($u_role == 'admin')
         <a href="/dashboard/admin">Dashboard</a>
       @endif
 
-      @if(Auth::user()->role == 'employer')
+      @if($u_role == 'employer')
       
         <a href="/dashboard/employer">Dashboard</a>
 
       @endif
 
-      @if(Auth::user()->role == 'applicant')
+      @if($u_role == 'applicant')
 
         <a href="/dashboard/applicant">Dashboard</a>
 
@@ -753,7 +770,7 @@ main .planning .item > i{
                 </div>
                 <div class="item">
                     <i class='bx bx-user'></i>
-                    <a href="/users/{{auth()->user()->id}}">Profile</a>
+                    <a href="/users/{{$u_id}}">Profile</a>
                 </div>
                 <div class="item">
                     <i class='bx bx-user-check'></i>
@@ -801,7 +818,7 @@ main .planning .item > i{
                 <button class="menu-btn" id="menu-open">
                     <i class='bx bx-menu'></i>
                 </button>
-                <h5>Hello! <b>{{auth()->user()->name}}</b>, Welcome back!</h5>
+                <h5>Hello! <b>{{$u_name}}</b>, Welcome back!</h5>
             </header>
             
 

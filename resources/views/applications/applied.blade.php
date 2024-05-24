@@ -4,7 +4,7 @@
 
 @section('p')
 <div class="home-container" style="width: 70vw;">
-    <table class="w-full table-auto rounded-sm">
+    <table class="w-full table-auto rounded-sm" style="width: 70vw;">
         <tbody>
 
 
@@ -14,11 +14,27 @@
     $maxCount = max($applicationsCount, $listingsCount);
 @endphp
 
-
-
-            @unless ($applications->isEmpty())
+@php
+$u_id=session('user.id')
+@endphp
+@php
+$u_name=session('user.name')
+@endphp
+@php
+$u_email=session('user.email')
+@endphp
+@php
+$u_role=session('user.role')
+@endphp
+@php
+$u_pic=session('user.pic')
+@endphp
+@php
+$u_cv=session('user.cv')
+@endphp
+@unless ($applications->isEmpty())
     @foreach ($applications as $application)
-        @if($application->user_id == auth()->user()->id)
+        @if($application->user_id == $u_id)
             @php
                 $listing = $application->listing; 
             @endphp

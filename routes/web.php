@@ -9,6 +9,9 @@ use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EmployerController;
 
+Route::get('/ab', function () {
+    return view('ran');
+});
 Route::get('/l', function () {
     return view('dashboard.l');
 });
@@ -23,19 +26,22 @@ Route::get('/reset/{token}', [UserController::class, 'getReset']);
 Route::post('/reset_post/{token}', [UserController::class, 'postReset']);
 
 
-Route::get('/dashboard/admin', [AdminController::class, 'dashboard']);
+//Route::get('/dashboard/admin', [AdminController::class, 'dashboard']);
 Route::get('/dashboard/admin/roles', [UserController::class, 'showUsers']);
 
 Route::put('/dashboard/admin/update-role', [UserController::class, 'updateRole']);
 
 
 
-Route::get('/dashboard/applicant', [ApplicantController::class, 'dashboard']);
+//Route::get('/dashboard/applicant', [ApplicantController::class, 'dashboard']);
 
 
-Route::get('/dashboard/employer', [EmployerController::class, 'dashboard']);
+//Route::get('/dashboard/employer', [EmployerController::class, 'dashboard']);
 
+Route::get('dashboard/admin',[AdminController::class,'dashboard'])->name('admin.dashboard')->middleware('role:admin');
 
+Route::get('dashboard/employer',[EmployerController::class,'dashboard'])->name('employer.dashboard')->middleware('role:employer');
+Route::get('dashboard/applicant',[ApplicantController::class,'dashboard'])->name('applicant.dashboard')->middleware('role:applicant');
 
 Route::get('/dashboard/employer/manage', [ListingController::class, 'manage'])->middleware('auth');
 
@@ -57,7 +63,7 @@ Route::get('/', [ListingController::class, 'index']);
 
 
 
-Route::get('/listings/create', [ListingController::class, 'create'])->middleware('auth');
+Route::get('/listings/create', [ListingController::class, 'create']);
 
 Route::post('/listings', [ListingController::class, 'store'])->middleware('auth');
 
@@ -89,7 +95,7 @@ Route::get('/listings/manage', [ListingController::class, 'manage'])->middleware
 Route::get('/listings/{listing}', [ListingController::class, 'show']);
 
 // Show Register/Create Form
-Route::get('/register', [UserController::class, 'create'])->middleware('guest');
+Route::get('/register', [UserController::class, 'create']);
 
 Route::get('/edit-profile', [UserController::class, 'showProfile']);
 Route::post('/updated-profile', [UserController::class, 'editProfile']);
@@ -101,7 +107,7 @@ Route::post('/users', [UserController::class, 'store']);
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 
 // Show Login Form
-Route::get('/login', [UserController::class, 'login'])->name('login')->middleware('guest');
+Route::get('/login', [UserController::class, 'login'])->name('login');
 
 // Log In User
 Route::post('/users/authenticate', [UserController::class, 'authenticate']);
@@ -116,26 +122,7 @@ Route::get('/listings/{listing}/apply',[ApplicationController::class,'store']);
 
 Route::get('/dashboard/admin/users', [UserController::class, 'showApplicants']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard.x');
-});
 
-// Route::get('/dashboard/actions', function () {
-//     return view('dashboard.dashboard');
-// });
-
-
-// Route::group(['middleware' => ['auth', 'role:admin']], function () {
-//     Route::get('/admin/dashboard', 'AdminController@dashboard')->name('admin.dashboard');
-// });
-
-// Route::group(['middleware' => ['auth', 'role:employer']], function () {
-//     Route::get('/employer/dashboard', 'EmployerController@dashboard')->name('employer.dashboard');
-// });
-
-// Route::group(['middleware' => ['auth', 'role:applicant']], function () {
-//     Route::get('/applicant/dashboard', 'ApplicantController@dashboard')->name('applicant.dashboard');
-// });
 
 Route::get('/totalUsers', [UserController::class, 'totalUsers']);
 Route::get('/totalListings', [ListingController::class, 'totalListings']);

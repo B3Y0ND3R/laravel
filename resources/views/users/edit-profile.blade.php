@@ -27,11 +27,29 @@
             padding: 20px;
         }
     </style>
+    @php
+    $u_id=session('user.id')
+    @endphp
+    @php
+    $u_name=session('user.name')
+    @endphp
+    @php
+    $u_email=session('user.email')
+    @endphp
+    @php
+    $u_role=session('user.role')
+    @endphp
+    @php
+    $u_pic=session('user.pic')
+    @endphp
+    @php
+    $u_cv=session('user.cv')
+    @endphp
 
     <div class="flex-container">
         <div class="nav">
             @section('nav')
-            @if(auth()->user()->role == 'admin')
+            @if($u_role == 'admin')
             <div class="item">
                 <i class='bx bx-group'></i>
                 <a href="/dashboard/admin/users">Users</a>
@@ -40,7 +58,7 @@
                 <i class='bx bx-file'></i>
                 <a href="/dashboard/admin/roles">Manage Roles</a>
             </div>
-            @elseif(auth()->user()->role == 'employer')
+            @elseif($u_role == 'employer')
             <div class="item">
                 <i class='bx bx-list-check'></i>
                 <a href="/dashboard/employer/manage">Manage Jobs</a>
@@ -49,7 +67,7 @@
                 <i class='bx bx-file'></i>
                 <a href="/listings/create">Post a Job</a>
             </div>
-            @elseif(auth()->user()->role == 'applicant')
+            @elseif($u_role == 'applicant')
             <div class="item">
                 <i class='bx bx-list-check'></i>
                 <a href="/dashboard/applicant/applied">Jobs applied</a>
@@ -81,7 +99,7 @@
                             type="text"
                             class="border border-gray-200 rounded p-2 w-full"
                             name="name"
-                            value="{{auth()->user()->name}}"
+                            value="{{$u_name}}"
                         />
                         @error('name')
                         <p class="text-red-500 text-xs mt-1">{{$message}}</p>
@@ -96,7 +114,7 @@
                             type="email"
                             class="border border-gray-200 rounded p-2 w-full"
                             name="email"
-                            value="{{auth()->user()->email}}"
+                            value="{{$u_email}}"
                         />
                         @error('email')
                         <p class="text-red-500 text-xs mt-1">{{$message}}</p>
@@ -132,7 +150,7 @@
                         @else
         <div class="text-lg space-y-6">
 
-            <a href="{{ asset('storage/' . auth()->user()->cv) }}" target="_blank" class="bg-laravel text-white mt-6 py-2 rounded-xl flex items-center justify-center hover:opacity-80" style="width: 100px;"><i class="fa-solid fa-file"></i>
+            <a href="{{ asset('storage/' . Auth::user()->cv) }}" target="_blank" class="bg-laravel text-white mt-6 py-2 rounded-xl flex items-center justify-center hover:opacity-80" style="width: 100px;"><i class="fa-solid fa-file"></i>
                 View CV
             </a>
         </div>

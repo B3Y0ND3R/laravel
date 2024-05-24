@@ -22,31 +22,18 @@ use Auth;
 
 class ApplicationController extends Controller
 {
-  // Store Listing Data
+
   public function store(Request $request, Listing $listing) {
-    // dd($request->file('logo'));
-
-    // Log::info('Apply method called');
-    // $formFields = $request->validate([
-    //     'listing_id' => 'required',
-    //     'employer_id' => 'required'
-    // ]);
 
 
-
-    $formFields['user_id'] = auth()->id();
+    $formFields['user_id'] = Auth::user()->id;
     $formFields['listing_id'] = $listing->id;
     $formFields['employer_id'] = $listing->user_id;
     
 
     Application::create($formFields);
 
-  //   $mailData = [
-  //     'employer' => $employer,
-  //     'user' => Auth::user(),
-  //     'job' => $job,
-  // ];
-  $user = auth()->user();
+  $user = Auth::user();
   $employer=User::where('id', '=', $listing->user_id)->first();
 
 
@@ -56,44 +43,9 @@ class ApplicationController extends Controller
     return redirect('/')->with('message', 'Listing created successfully!');
 }
 
-// public function store(Request $request) {
-//   // dd($request->file('logo'));
-//   $formFields = $request->validate([
-//       'title' => 'required',
-//       'company' => ['required', Rule::unique('listings', 'company')],
-//       'location' => 'required',
-//       'website' => 'required',
-//       'email' => ['required', 'email'],
-//       'tags' => 'required',
-//       'description' => 'required',
-//       'logo' => 'required'
-//   ]);
-
-//   if($request->hasFile('logo')) {
-//       $formFields['logo'] = $request->file('logo')->store('logos', 'public');
-//   }
-
-//   $formFields['user_id'] = auth()->id();
-
-//   Listing::create($formFields);
-
-//   return redirect('/')->with('message', 'Listing created successfully!');
-// }
-
-
-// public function applied() {
-//   $user = auth()->user();
-//   $applications = $user->applications()->get();
-//   $listings = $user->listings()->get();
-
-//   return view('applications.applied', [
-//       'applications' => $applications,
-//       'listings' => $listings
-//   ]);
-// }
 
 public function applied() {
-  $user = auth()->user();
+  $user = Auth::user();
   $applications = $user->applications; 
   $listings = Listing::all(); 
 

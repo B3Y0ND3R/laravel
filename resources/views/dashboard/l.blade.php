@@ -11,26 +11,43 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
 </head>
 
-
+@php
+$u_id=session('user.id')
+@endphp
+@php
+$u_name=session('user.name')
+@endphp
+@php
+$u_email=session('user.email')
+@endphp
+@php
+$u_role=session('user.role')
+@endphp
+@php
+$u_pic=session('user.pic')
+@endphp
+@php
+$u_cv=session('user.cv')
+@endphp
 <body>
 
 
   <div class="container">
     <nav>
       <ul>
-        <li><a href="/users/{{auth()->user()->id}}" class="logo">
+        <li><a href="/users/{{$u_id}}" class="logo">
           <img
                             class="w-48 mr-6 mb-6"
-                            src="{{auth()->user()->pic ? asset('storage/' . auth()->user()->pic) : asset('/images/no-image.png')}}"
+                            src="{{Auth::user()->pic ? asset('storage/' . Auth::user()->pic) : asset('/images/no-image.png')}}"
                             alt=""
                         />
-          <span class="nav-item">{{auth()->user()->name}}</span>
+          <span class="nav-item">{{$u_name}}</span>
         </a></li>
         <li><a href="/">
           <i class="fas fa-home"></i>
           <span class="nav-item">Home</span>
         </a></li>
-         <li><a href="/users/{{auth()->user()->id}}">
+         <li><a href="/users/{{$u_id}}">
           <i class="fas fa-user"></i>
           <span class="nav-item">My Profile</span>
         </a></li>

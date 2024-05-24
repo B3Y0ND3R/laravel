@@ -33,11 +33,6 @@
 
 
         <div class="mb-6">
-          <input type="checkbox" name="remember" id="remember" class="mr-2">
-          <label for="remember" class="text-lg">Remember Me</label>
-        </div>
-
-        <div class="mb-6">
             <a href="/forgot" class="text-laravel">Forgot Password?</a>
         </div>
   

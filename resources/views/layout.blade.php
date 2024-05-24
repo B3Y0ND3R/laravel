@@ -27,16 +27,22 @@
         </script>
         <title>JobHelp | Find Jobs & Projects</title>
     </head>
+
     <body class="mb-48">
         <nav class="flex justify-between items-center mb-4">
             <a href="/"
                 ><img class="w-24" src="{{asset('images/j.png')}}" alt="" class="logo"
             /></a>
             <ul class="flex space-x-6 mr-6 text-lg">
-                @auth
+                @php
+                    $u_name = session('user.name');
+                    $u_role = session('user.role');
+                @endphp
+
       <li>
+        @if($u_role == 'admin' || $u_role == 'employer' || $u_role == 'applicant')
         <span class="font-bold uppercase">
-          Welcome {{auth()->user()->name}}
+          Welcome {{$u_name}}
         </span>
       </li>
       {{-- <li>
@@ -46,23 +52,11 @@
         <a href="/users/{{auth()->user()->id}}" class="hover:text-laravel"><i class="fa-solid fa-user"></i> My Profile</a>
       </li> --}}
 
-      @if(Auth::user()->role == 'admin')
-      <li>
-        <a href="/dashboard/admin" class="hover:text-laravel"><i class="fa-solid fa-window-restore"></i>Dashboard</a>
-      </li>
-        @endif
 
-      @if(Auth::user()->role == 'employer')
       <li>
-        <a href="/dashboard/employer" class="hover:text-laravel"><i class="fa-solid fa-window-restore"></i>Dashboard</a>
-      </li>
-      @endif
+        <a href="{{ route($u_role . '.dashboard') }}" class="hover:text-laravel"><i class="fa-solid fa-window-restore"></i> Dashboard</a>
+    </li>
 
-      @if(Auth::user()->role == 'applicant')
-      <li>
-        <a href="/dashboard/applicant" class="hover:text-laravel"><i class="fa-solid fa-window-restore"></i>Dashboard</a>
-      </li>
-      @endif
 
 
       <li>
@@ -73,6 +67,7 @@
           </button>
         </form>
       </li>
+
       @else
       <li>
         <a href="/register" class="hover:text-laravel"><i class="fa-solid fa-user-plus"></i> Register</a>
@@ -80,7 +75,7 @@
       <li>
         <a href="/login" class="hover:text-laravel"><i class="fa-solid fa-arrow-right-to-bracket"></i> Login</a>
       </li>
-      @endauth
+      @endif
     </ul>
   </nav>
         <main>
@@ -91,11 +86,6 @@
     style="height:50px;">
         <p class="ml-2">Copyright &copy; 2024, All Rights reserved</p>
 
-        {{-- <a
-            href="/listings/create"
-            class="absolute top-1/3 right-10 bg-black text-white py-2 px-5"
-            >Post Job</a
-        > --}}
     </footer>
     <x-flash-messeges />
 </body>

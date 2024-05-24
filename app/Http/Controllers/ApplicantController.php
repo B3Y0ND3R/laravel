@@ -13,7 +13,7 @@ class ApplicantController extends Controller
    
         public function dashboard()
     {
-        if (Auth::check() && Auth::user()->role == 'applicant') {
+        if (Auth::check() && session('user.role') == 'applicant') {
             return view('dashboard.applicant');
         } else {
             return redirect('/')->with('error', 'Unauthorized action.');

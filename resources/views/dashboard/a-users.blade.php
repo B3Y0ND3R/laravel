@@ -30,6 +30,25 @@
         </script>
         <body>
 
+            @php
+$u_id=session('user.id')
+@endphp
+@php
+$u_name=session('user.name')
+@endphp
+@php
+$u_email=session('user.email')
+@endphp
+@php
+$u_role=session('user.role')
+@endphp
+@php
+$u_pic=session('user.pic')
+@endphp
+@php
+$u_cv=session('user.cv')
+@endphp
+
             @section('p')
 <div class="home-container" style="width: 70vw;">
     @auth
@@ -53,11 +72,11 @@
                     </a>
                 </td>
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    @if($user->role == 'employer')
+                    @if($u_role == 'employer')
                     <a href="/dashboard/admin/users/{{$user->id}}/listings" class="text-blue-400 px-6 py-2 rounded-xl">
                         <i class="fa-solid fa-file"></i> Jobs
                     </a>
-                    @elseif($user->role == 'applicant')
+                    @elseif($u_role == 'applicant')
                     <a href="/dashboard/admin/users/{{$user->id}}/applications" class="text-blue-400 px-6 py-2 rounded-xl">
                         <i class="fa-solid fa-file"></i> Applications
                     </a>

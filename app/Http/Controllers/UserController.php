@@ -36,22 +36,29 @@ class UserController extends Controller
             'pic' => 'required',
             'role' => 'required|string|in:admin,employer,applicant'
         ]);
-
+    
         if($request->hasFile('pic')) {
             $formFields['pic'] = $request->file('pic')->store('pics', 'public');
         }
-
-        // Hash Password
+    
         $formFields['password'] = bcrypt($formFields['password']);
-
-        // Create User
+    
         $user = User::create($formFields);
-
-        // Login
-        auth()->login($user);
-
+    
+        $request->session()->put('user', [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'role' => $user->role,
+            'pic' => $user->pic,
+            'cv' => null,
+        ]);
+        session(['logged_in' => true]);
+        $this->authenticate($request);
+    
         return redirect('/')->with('message', 'User created and logged in');
     }
+    
 
 
     public function show(User $user){
@@ -109,36 +116,59 @@ class UserController extends Controller
 
 
 public function showProfile(){
-    return view('users.edit-profile');
+    $user=User::where('id', session('user.id'));
+    return view('users.edit-profile', compact('user'));
 }
 public function editProfile(Request $request){
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,'.$request->user()->id,
-            'pic' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'cv' => 'nullable|mimes:pdf,doc,docx|max:2048'
-        ]);
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users,email,'.$request->user()->id,
+        'pic' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+        'cv' => 'nullable|mimes:pdf,doc,docx'
+    ]);
 
-        $user = User::find($request->user()->id);
-        if ($request->hasFile('pic')) {
+    $user = User::find($request->user()->id);
 
-            $user->pic = $request->file('pic')->store('pics', 'public');
-        } 
-    
-        if ($request->hasFile('cv')) {
-            $file = $request->file('cv');
-            $name = time() . $file->getClientOriginalName();
-            $name = preg_replace('/\s+/', '-', $name);
-            $path = $file->storeAs('cvs', $name, 'public');
-            $user->cv = $path;
-        }
+    if ($request->hasFile('pic')) {
+        $user->pic = $request->file('pic')->store('pics', 'public');
+        $sessionData['pic'] = $request->pic;
+    } 
 
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->save();
-        return redirect()->back()->with('message', 'Profile updated successfully!');
+    if ($request->hasFile('cv')) {
+        $file = $request->file('cv');
+        $name = time() . $file->getClientOriginalName();
+        $name = preg_replace('/\s+/', '-', $name);
+        $path = $file->storeAs('cvs', $name, 'public');
+        $user->cv = $path;
+        $sessionData['cv'] = $path;
     }
+
+
+    $sessionData = [
+        'id' => $user->id,
+        'role' => $user->role,
+    ];
+    if ($request->filled('name')) {
+        $sessionData['name'] = $request->name;
+        $user->name = $request->name;
+    }
+    if ($request->filled('email')) {
+        $sessionData['email'] = $request->email;
+        $user->email = $request->email;
+    }
+    if ($request->filled('pic')) {
+        $sessionData['pic'] = $request->pic;
+    }
+    if ($request->filled('cv')) {
+        $sessionData['cv'] = $request->cv;
+    }
+
+    $request->session()->put('user', $sessionData);
+    $user->save();
+    
+    return redirect()->back()->with('message', 'Profile updated successfully!');
+}
 
 
 public function goToUploadCV() {
@@ -180,15 +210,15 @@ public function showCv(User $user)
 
     
 
-    public function logout(Request $request) {
-        auth()->logout();
+public function logout(Request $request) {
+    $request->session()->forget('user');
+    //Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+    return redirect('/')->with('message', 'You have been logged out!');
+}
 
-        return redirect('/')->with('message', 'You have been logged out!');
-
-    }
 
     public function login() {
         return view('users.login');
@@ -245,8 +275,18 @@ public function showCv(User $user)
             'email' => ['required', 'email'],
             'password' => 'required'
         ]);
-        $remember = $request->filled('remember');
-        if(auth()->attempt($formFields, $remember)) {
+        $user = User::where('email', $formFields['email'])->first();
+        //$remember = $request->filled('remember');
+        if(Auth::attempt($formFields)) {
+            session(['logged_in' => true]);
+            $request->session()->put('user', [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $user->role,
+                'pic' => $user->pic,
+                'cv' => $user->cv,
+            ]);
             $request->session()->regenerate();
 
             return redirect('/')->with('message', 'You are now logged in!');
@@ -254,6 +294,7 @@ public function showCv(User $user)
 
         return back()->withErrors(['email' => 'Invalid Credentials'])->onlyInput('email');
     }
+    
 
     public function totalUsers(){
 

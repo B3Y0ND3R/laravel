@@ -6,7 +6,7 @@
 
 
 
-    <table class="w-full table-auto rounded-sm">
+    <table class="w-full table-auto rounded-sm" style="width: 70vw;">
         <tbody>
 
             @foreach($listing->applications as $application)

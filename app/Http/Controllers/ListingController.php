@@ -36,16 +36,24 @@ class ListingController extends Controller
     }
 
     public function show(Listing $listing){
-        return view('listings.show',[
-            'listing' => $listing
-        ]);
+        $hasApplied = Application::where([
+            'user_id' => auth()->id(),
+            'listing_id' => $listing->id
+        ])->exists();
+        return view('listings.show',compact('listing', 'hasApplied'));
     }
 
     public function create(){
-        return view('listings.create');
+        if(session('user.role')=='employer'){
+            return view('listings.create');
+        }
+        else{
+            return redirect('/')->with('message', 'You cannot post a job!');
+        }
+        
     }
 
-      // Store Listing Data
+
       public function store(Request $request) {
         // dd($request->file('logo'));
         $formFields = $request->validate([
@@ -63,7 +71,7 @@ class ListingController extends Controller
             $formFields['logo'] = $request->file('logo')->store('logos', 'public');
         }
 
-        $formFields['user_id'] = auth()->id();
+        $formFields['user_id'] = Auth::user()->id;
 
         Listing::create($formFields);
 
@@ -71,15 +79,15 @@ class ListingController extends Controller
     }
 
 
-    // Show Edit Form
+
     public function edit(Listing $listing) {
         return view('listings.edit', ['listing' => $listing]);
     }
 
-    // Update Listing Data
+
     public function update(Request $request, Listing $listing) {
-        // Make sure logged in user is owner
-        if($listing->user_id != auth()->id()) {
+
+        if($listing->user_id != Auth::user()->id) {
             abort(403, 'Unauthorized Action');
         }
         
@@ -102,10 +110,8 @@ class ListingController extends Controller
         return back()->with('message', 'Listing updated successfully!');
     }
 
-    // Delete Listing
     public function destroy(Listing $listing) {
-        // Make sure logged in user is owner
-        if($listing->user_id != auth()->id()) {
+        if($listing->user_id != Auth::user()->id) {
             abort(403, 'Unauthorized Action');
         }
         
@@ -116,63 +122,25 @@ class ListingController extends Controller
         return redirect('/')->with('message', 'Listing deleted successfully');
     }
 
-// Manage Listings
+
 public function handle() {
     return view('listings.handle');
-    //, ['listings' => auth()->user()->listings()->get()]);
+
 }
 
 
-    // // Manage Listings
-    // public function manage() {
-    //     return view('listings.manage', ['listings' => auth()->user()->listings()->get()]);
-    // }
-
-
-    // Manage Listings
     public function manage() {
-        return view('dashboard.e-manage', ['listings' => auth()->user()->listings()->get()]);
+        return view('dashboard.e-manage', ['listings' => Auth::user()->listings()->get()]);
     }
 
 
-//     public function apply(Request $request, Listing $listing)
-// {
-//     $application = new Application;
-//     $application->user_id = auth()->user()->id;
-//     $application->listing_id = $listing->id;
-//     $application->employer_id = $listing->user_id; // Assuming the listing model has a user_id field for the employer
-//     $application->save();
 
-//     // Send notification to the employer
-//     // This part depends on how you handle notifications in your application
-//     // For example, using Laravel's built-in notifications system
-//     $listing->user->notify(new JobApplicationReceived($application));
-
-//     return redirect()->back()->with('success', 'Application submitted successfully!');
-// }
-
-// public function apply(Request $request) {
-//     $formFields = $request->validate([
-//         'user_id' => 'required',
-//         'listing_id' => 'required',
-//         'employer_id' => 'required'
-//     ]);
-
-
-//     // Create User
-//     $user = User::create($formFields);
-
-//     // Login
-//     auth()->login($user);
-
-//     return redirect('/')->with('message', 'User created and logged in');
-// }
 public function applyJob(Request $request) {
     $id = $request->id;
 
     $listing = Listing::where('id',$id)->first();
 
-    // If job not found in db
+
     if ($listing == null) {
         $message = 'Listing does not exist.';
         session()->flash('error',$message);
@@ -182,7 +150,6 @@ public function applyJob(Request $request) {
         ]);
     }
 
-    // you can not apply on your own job
     $employer_id = $listing->user_id;
 
     if ($employer_id == Auth::user()->id) {
@@ -194,7 +161,6 @@ public function applyJob(Request $request) {
         ]);
     }
 
-    // You can not apply on a job twise
     $ApplicationCount = Application::where([
         'user_id' => Auth::user()->id,
         'listing_id' => $id
@@ -213,11 +179,9 @@ public function applyJob(Request $request) {
     $application->listing_id = $id;
     $application->user_id = Auth::user()->id;
     $application->employer_id = $employer_id;
-    // $application->created_at= now();
     $application->save();
 
 
-    // Send Notification Email to Employer
     $employer = User::where('id',$employer_id)->first();
     
     $mailData = [
@@ -226,7 +190,6 @@ public function applyJob(Request $request) {
         'job' => $listing,
     ];
 
-    // Mail::to($employer->email)->send(new JobNotificationEmail($mailData));
 
     $message = 'You have successfully applied.';
 

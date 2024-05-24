@@ -13,11 +13,9 @@ class EmployerController extends Controller
 {
     public function dashboard()
     {
-        if (Auth::check() && Auth::user()->role == 'employer') {
+
             return view('dashboard.employer');
-        } else {
-            return redirect('/')->with('error', 'Unauthorized action.');
-        }
+
     }
 
     
