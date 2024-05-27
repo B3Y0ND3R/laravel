@@ -10,6 +10,10 @@
     <i class='bx bx-file'></i>
     <a href="/listings/create">Post a Job</a>
 </div>
+<div class="item">
+    <i class='bx bx-file'></i>
+    <a href="/employer/role-request">Role Request</a>
+</div>
 
 @endsection
 

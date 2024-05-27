@@ -96,7 +96,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $applications = $user->applications; 
 
-        return view('dashboard.applications', compact('applications'));
+        return view('dashboard.applications', compact('applications', 'user'));
     }
 
 
@@ -303,4 +303,16 @@ public function logout(Request $request) {
         $applications=Application::all();
         return view('total.users', compact('users','listings','applications'));
     }
+
+
+    public function destroy($id)
+{
+    $user = User::findOrFail($id);
+    if (Auth::user()->role!== 'admin') {
+        abort(403, 'Unauthorized action.');
+    }
+    $user->delete();
+    return redirect()->back()->with('success', 'User deleted successfully.');
+}
+
 }

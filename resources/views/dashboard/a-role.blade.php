@@ -51,53 +51,44 @@ $u_cv=session('user.cv')
 
             @section('p')
 <div class="home-container" style="width: 70vw;">
-    @auth
     <table class="w-full table-auto rounded-sm">
         <tbody>
-            @foreach($users as $user)
-            @unless($user->role=='admin')
+            @unless ($roleRequests->isEmpty())
+            @foreach($roleRequests as $request)
             <tr class="border-gray-300">
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    <a href="/users/{{ $user->id }}">
-                        User ID: {{ $user->id ?? 'N/A' }}
-                    </a>
+                    User: {{ $request->user->name }}
                 </td>
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    <a href="/users/{{ $user->id }}">
-                        Username: {{ $user->name ?? 'N/A' }}
-                    </a>
+                    Current: {{ $request->current_role }}
                 </td>
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    <a href="/users/{{ $user->id }}">
-                        <img class="mr-6 mb-6" src="{{ $user->pic ? asset('storage/' . $user->pic) : asset('/images/no-image.png') }}" alt="User Image" width="100" height="100">
-                    </a>
+                    Requested: {{ $request->requested_role }}
                 </td>
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    @if($user->role == 'employer')
-                    <a href="/dashboard/admin/users/{{$user->id}}/listings" class="text-blue-400 px-6 py-2 rounded-xl">
-                        <i class="fa-solid fa-file"></i> Jobs
-                    </a>
-                    @elseif($user->role == 'applicant')
-                    <a href="/dashboard/admin/users/{{$user->id}}/applications" class="text-blue-400 px-6 py-2 rounded-xl">
-                        <i class="fa-solid fa-file"></i> Applications
-                    </a>
-                    @endif
-                </td>
-                <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    @if(Auth::check() && Auth::user()->role === 'admin')
-                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
+                    <form action="{{ route('admin.role_requests.update', $request->id) }}" method="POST">
                         @csrf
-                        @method('DELETE')
-                        <button type="submit" class="bg-red-500 text-white rounded py-2 px-4 hover:bg-red-700" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
+                        @method('PUT') 
+                        <button type="submit" class="bg-laravel text-white rounded py-2 px-4 hover:bg-black" onclick="return confirm('Are you sure you want to update this user role?');">Approve</button>
                     </form>
-                    @endif
-                </td>
+                    </td>
+                    <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
+                        <form action="{{ route('admin.role_requests.delete', $request->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="bg-red-500 text-white rounded py-2 px-4 hover:bg-red-700" onclick="return confirm('Are you sure you want to delete this role request?');">Delete</button>
+                        </form>
+                    </td>
+                    
             </tr>
-            @endunless
             @endforeach
+            @else
+            <p class="text-center">
+            All requests processed
+            </p>
+            @endif
         </tbody>
     </table>
-    @endauth
 </div>
 @endsection
 

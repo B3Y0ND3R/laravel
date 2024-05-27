@@ -86,6 +86,10 @@ $u_cv=session('user.cv')
     <i class='bx bx-file'></i>
     <a href="/dashboard/applicant/upload-cv">Your CV</a>
 </div> 
+<div class="item">
+    <i class='bx bx-file'></i>
+    <a href="/applicant/role-request">Role Request</a>
+</div>
 @endsection
 
         </body>

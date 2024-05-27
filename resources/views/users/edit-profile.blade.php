@@ -56,6 +56,10 @@
             </div>
             <div class="item">
                 <i class='bx bx-file'></i>
+                <a href="/dashobard/admin/role-requests">Role Requests</a>
+            </div>
+            <div class="item">
+                <i class='bx bx-file'></i>
                 <a href="/dashboard/admin/roles">Manage Roles</a>
             </div>
             @elseif($u_role == 'employer')
@@ -67,6 +71,10 @@
                 <i class='bx bx-file'></i>
                 <a href="/listings/create">Post a Job</a>
             </div>
+            <div class="item">
+                <i class='bx bx-file'></i>
+                <a href="/employer/role-request">Role Request</a>
+            </div>
             @elseif($u_role == 'applicant')
             <div class="item">
                 <i class='bx bx-list-check'></i>
@@ -75,6 +83,10 @@
             <div class="item">
                 <i class='bx bx-file'></i>
                 <a href="/dashboard/applicant/upload-cv">Your CV</a>
+            </div>
+            <div class="item">
+                <i class='bx bx-file'></i>
+                <a href="/applicant/role-request">Role Request</a>
             </div>
             @endif
             @endsection

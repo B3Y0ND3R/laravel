@@ -82,7 +82,6 @@
                             <label for="role" class="inline-block text-lg mb-2">Role</label>
                             <select name="role" class="border border-gray-200 rounded p-2 w-full">
                                 <option value="">Select Role</option>
-                                <option value="admin">Admin</option>
                                 <option value="employer">Employer</option>
                                 <option value="applicant">Applicant</option>
                             </select>

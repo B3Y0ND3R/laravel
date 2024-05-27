@@ -119,6 +119,10 @@ $u_cv=session('user.cv')
 </div>
 <div class="item">
     <i class='bx bx-file'></i>
+    <a href="/dashobard/admin/role-requests">Role Requests</a>
+</div>
+<div class="item">
+    <i class='bx bx-file'></i>
     <a href="/dashboard/admin/roles">Manage Roles</a>
 </div>
 @endsection

@@ -8,6 +8,7 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EmployerController;
+use App\Http\Controllers\RoleRequestController;
 
 Route::get('/ab', function () {
     return view('ran');
@@ -20,7 +21,15 @@ Route::get('/forgot', [UserController::class, 'forgot']);
 
 Route::post('/forgot-password', [UserController::class, 'forgot_post']);
 
+Route::get('/employer/role-request', [RoleRequestController::class, 'seeEmp'])->middleware('role:employer');
+Route::get('/applicant/role-request', [RoleRequestController::class, 'seeApp'])->middleware('role:applicant');
 
+Route::post('/role-requested', [RoleRequestController::class, 'store'])->name('role_request.store');
+Route::get('/dashobard/admin/role-requests', [RoleRequestController::class, 'index'])->name('admin.role_requests.index');
+Route::put('/dashboard/admin/role-requests/{roleRequest}', [RoleRequestController::class, 'update'])->name('admin.role_requests.update');
+Route::delete('/role-requests/{id}', [RoleRequestController::class, 'destroy'])->name('admin.role_requests.delete');
+
+Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('admin.users.destroy');
 
 Route::get('/reset/{token}', [UserController::class, 'getReset']);
 Route::post('/reset_post/{token}', [UserController::class, 'postReset']);

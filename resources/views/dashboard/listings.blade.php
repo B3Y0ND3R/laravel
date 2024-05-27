@@ -33,7 +33,7 @@
             @section('p')
 <div class="home-container">
 
-    <table class="w-full table-auto rounded-sm">
+    <table class="w-full table-auto rounded-sm" style="width: 70vw;">
         <tbody>
 
             @unless ($listings->isEmpty())
@@ -102,6 +102,10 @@
 <div class="item">
     <i class='bx bx-user'></i>
     <a href="/dashboard/admin/users">Users</a>
+</div>
+<div class="item">
+    <i class='bx bx-file'></i>
+    <a href="/dashobard/admin/role-requests">Role Requests</a>
 </div>
 <div class="item">
     <i class='bx bx-user'></i>

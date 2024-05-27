@@ -31,55 +31,50 @@
         <body>
 
             @section('p')
-<div class="home-container" style="width:70vw">
+<div class="home-container">
 
-    <table class="w-full table-auto rounded-sm">
+    <table class="w-full table-auto rounded-sm" style="width: 70vw;">
         <tbody>
 
-            @unless ($listings->isEmpty())
-            @foreach ($listings as $listing)
+            @unless ($applications->isEmpty())
+            @foreach ($applications as $application)
             <tr class="border-gray-300">
                 <td
                     class="px-4 py-8 border-t border-b border-gray-300 text-lg"
                 >
-                    <a href="/listings/{{$listing->id}}">
-                        {{$listing->title}}
+                    {{-- <a href="/listings/{{$listing->id}}"> --}}
+                    <a href="/users/{{$application->user->id}}">
+                        Application ID: {{ $application->id }}
                     </a>
                 </td>
                 <td
                     class="px-4 py-8 border-t border-b border-gray-300 text-lg"
                 >
-                    <a
+                    {{-- <a
                         href="/listings/{{$listing->id}}/edit"
                         class="text-blue-400 px-6 py-2 rounded-xl"
-                        ><i
-                            class="fa-solid fa-pen-to-square"
-                        ></i>
-                        Edit</a
-                    >
+                    > --}}
+                    <a href="/users/{{$application->user->id}}">
+                        Applied by: {{ $application->user->name }}
+                        </a>
                 </td>
                 <td
                     class="px-4 py-8 border-t border-b border-gray-300 text-lg"
                 >
-                <form method="POST" action="/listings/{{$listing->id}}">
-                    @csrf
-                    @method('DELETE')
-                    <button class="text-red-500"><i class="fa-solid fa-trash"></i> Delete</button>
-                  </form>
+                {{-- <img src="{{ asset($application->user->pic) }}" alt=""> --}}
+                <a href="/users/{{$application->user->id}}">
+                <img
+                            class="w-48 mr-6 mb-6"
+                            src="{{$application->user->pic ? asset('storage/' . $application->user->pic) : asset('/images/no-image.png')}}"
+                            alt=""
+                            height="200px"
+                            width="200px"
+                        />
+                </a>
+
                 </td>
 
-                <td
-                    class="px-4 py-8 border-t border-b border-gray-300 text-lg"
-                >
-                <a
-                        href="/applications/{{$listing->id}}/users"
-                        class="text-blue-400 px-6 py-2 rounded-xl"
-                        ><i
-                            class="fa-solid fa-file"
-                        ></i>
-                        Applications</a
-                    >
-                </td>
+                
             </tr>
             @endforeach  
             @else
@@ -100,16 +95,16 @@
 
 @section('nav')
 <div class="item">
-    <i class='bx bx-list-check'></i>
-    <a href="/dashboard/employer/manage">Manage Jobs</a>
+    <i class='bx bx-user'></i>
+    <a href="/dashboard/admin/users">Users</a>
 </div>
 <div class="item">
     <i class='bx bx-file'></i>
-    <a href="/listings/create">Post a Job</a>
+    <a href="/dashobard/admin/role-requests">Role Requests</a>
 </div>
 <div class="item">
-    <i class='bx bx-file'></i>
-    <a href="/employer/role-request">Role Request</a>
+    <i class='bx bx-user'></i>
+    <a href="/">Manage Roles</a>
 </div>
     @endsection
 
